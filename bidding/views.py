@@ -67,5 +67,5 @@ class ListAllBid(generics.ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        context = {}
+        return Product.objects.order_by('-id')
         

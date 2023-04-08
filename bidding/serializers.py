@@ -16,7 +16,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "slug",
             "thumbnail",
             "price",
-            "start_time",
             "ending_time",
             "description",
             "created_at",
@@ -33,7 +32,6 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
             "slug",
             "thumbnail",
             "price",
-            "start_time",
             "ending_time",
             "description",
             "created_at",
@@ -42,6 +40,7 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         context = super().to_representation(instance)
         context['user'] = {"email": instance.user.email, "phone": instance.user.phone}
+        context['active'] = instance.active
         return context
 
 
@@ -54,7 +53,6 @@ class PlaceBidSerializer(serializers.ModelSerializer):
             "user",
             "amount",
             "bid_time",
-            "own",
         )
 
     def validate_amount(self, value):
@@ -84,5 +82,4 @@ class UserBidSerializer(serializers.ModelSerializer):
             "user",
             "amount",
             "bid_time",
-            "own",
         )

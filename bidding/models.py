@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.conf import settings
 
@@ -10,7 +12,6 @@ class Product(models.Model):
     slug = models.SlugField(max_length=510, null=True, blank=True)
     thumbnail = models.URLField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    start_time = models.DateTimeField(auto_now_add=True)
     ending_time = models.DateTimeField()
     description = models.TextField(null=True, blank=True)
     active = models.BooleanField(default=True)
@@ -29,12 +30,15 @@ class Product(models.Model):
             self.slug = generate_unique_slug(self, self.title)
             super().save(*args, **kwargs)
 
+    @property
+    def active(self):
+        return True
+
 
 class PlacedBid(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bids', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
-    own = models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
     bid_time = models.DateTimeField(auto_now_add=True)
 

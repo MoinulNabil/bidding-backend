@@ -5,7 +5,8 @@ from .views import (
     RetrieveUpdateDestroyProduct,
     RetrieveProduct,
     PlaceBid,
-    ListUserBid
+    ListUserBid,
+    ListAllBid
 )
 
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('retrieve-product/<str:slug>/', RetrieveProduct.as_view(), name='retrieve-product'),
     path('place-bid/', PlaceBid.as_view(), name='place-bid'),
     path('list-user-bid/', ListUserBid.as_view(), name='list-user-bid'),
+    path('list-all-bid/', ListAllBid.as_view(), name='list-all-bid'),
 ]
