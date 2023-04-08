@@ -136,6 +136,8 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8080",
     "http://localhost:8080",
+    "https://starlit-raindrop-13a9a1.netlify.app",
+    "http://starlit-raindrop-13a9a1.netlify.app"
 ]
 
 SIMPLE_JWT = {
