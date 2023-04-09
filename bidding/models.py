@@ -17,6 +17,9 @@ class Product(models.Model):
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self) -> str:
         return self.title
     
@@ -42,6 +45,9 @@ class PlacedBid(models.Model):
     paid = models.BooleanField(default=False)
     own = models.BooleanField(default=False)
     bid_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-amount']
 
     def __str__(self) -> str:
         return self.product.title

@@ -14,7 +14,7 @@ from .serializers import (
     ProductSerializer,
     PlaceBidSerializer,
     UserBidSerializer,
-    ProductDetailsSerializer
+    ProductDetailsSerializer,
 )
 from user_account.permissions import (
     IsProductCreator
@@ -92,7 +92,6 @@ class ListUserBid(generics.ListAPIView):
         return self.request.user.bids
 
 
-
 class ListAllBid(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = ProductSerializer
@@ -100,4 +99,3 @@ class ListAllBid(generics.ListAPIView):
 
     def get_queryset(self):
         return Product.objects.order_by('-id')
-        

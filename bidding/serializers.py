@@ -71,6 +71,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "ending_time",
             "description",
+            "active",
             "total_bids",
             "created_at",
         )
@@ -136,40 +137,6 @@ class ProductDetailsSerializer(serializers.ModelSerializer):
             return None
     
 
-
-class PlaceBidSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PlacedBid
-        fields = (
-            "id",
-            "product",
-            "user",
-            "amount",
-            "bid_time",
-        )
-
-    def validate_amount(self, value):
-         product = Product.objects.get(pk=self.get_initial().get('product'))
-         less_amount = product.price > value
-         bid = self.Meta.model.objects.filter(
-             product=product,
-             amount__gte=value
-         )
-         if less_amount:
-             raise serializers.ValidationError(f"The product base price is {product.price}")
-         
-         if bid.exists():
-            raise serializers.ValidationError(f"The minimum bidding price must be greater than {bid.first().amount}")
-         
-         return value
-    
-    def validate(self, validated_data):
-         product = Product.objects.get(pk=validated_data.get('product').id)
-         if not product.available:
-            raise serializers.ValidationError("The bid is not active")
-         return validated_data
-    
-
 class UserBidSerializer(serializers.ModelSerializer):
     product = ProductDetailsSerializer(read_only=True)
     bid_time = serializers.SerializerMethodField(method_name='get_bid_time')
@@ -186,5 +153,4 @@ class UserBidSerializer(serializers.ModelSerializer):
         )
 
     def get_bid_time(self, obj):
-        print(obj.bid_time.strftime("%Y-%m-%d%H:%M"))
         return obj.bid_time.strftime("%Y-%m-%d %H:%M")

@@ -2,11 +2,16 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
+from .utils import validate_bd_number
 
 User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.fields['phone'].validators = [validate_bd_number]
+
     password2 = serializers.CharField(required=True, write_only=True)
 
     class Meta:

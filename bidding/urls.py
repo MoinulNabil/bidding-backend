@@ -6,7 +6,7 @@ from .views import (
     RetrieveProduct,
     PlaceBid,
     ListUserBid,
-    ListAllBid
+    ListAllBid,
 )
 
 

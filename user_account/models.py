@@ -3,11 +3,12 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 
 from .managers import UserManager
+from .utils import validate_bd_number
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=150, unique=True)
-    phone = models.CharField(max_length=13)
+    phone = models.CharField(max_length=11, validators=[validate_bd_number, ])
     joined_date = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
     objects = UserManager()

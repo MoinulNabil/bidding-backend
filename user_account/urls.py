@@ -4,10 +4,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView
 )
 
-
 from .views import (
     Register,
-    Login,
     Analytics
 )
 
