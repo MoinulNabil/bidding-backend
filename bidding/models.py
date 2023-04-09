@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 
 from django.db import models
 from django.conf import settings
@@ -31,15 +31,16 @@ class Product(models.Model):
             super().save(*args, **kwargs)
 
     @property
-    def active(self):
-        return True
+    def available(self):
+        return self.ending_time > timezone.now()
 
 
 class PlacedBid(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='bids', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='bids', on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     paid = models.BooleanField(default=False)
+    own = models.BooleanField(default=False)
     bid_time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
